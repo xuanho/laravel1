@@ -10,6 +10,7 @@ Route::get('/', function () {
 Route::get('/jobs', function () {
     // $job = Job::all(); // lazy loading
     $job = Job::with('employer')->paginate(10); // eager loading
+    // $job = Job::with('employer')->cursorPaginate(5); // eager loading
     return view('jobs', ['jobs' => $job]);
 });
 Route::get('/jobs/{id}', function ($id) {
@@ -18,3 +19,4 @@ Route::get('/jobs/{id}', function ($id) {
 Route::get('/contact', function () {
     return view('contact');
 });
+ 

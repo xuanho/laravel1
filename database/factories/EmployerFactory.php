@@ -17,12 +17,12 @@ class EmployerFactory extends Factory
      */
     public function definition(): array
     {
-        static $useUserIds = [];
+        static $usedUserIds = [];
         $avliableUserIds = User::whereNotIn('id', $usedUserIds)->inRandomOrder()->first();
         if(!$avliableUserIds){
             throw new \Exception('No available user ids');
         }
-        $useUserIds[] = $avliableUserIds->id;
+        $usedUserIds[] = $avliableUserIds->id;
         return [
             'name' => $this->faker->company(),
             'user_id' => $avliableUserIds->id, 

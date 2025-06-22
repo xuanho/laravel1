@@ -12,7 +12,10 @@ Route::get('/jobs/create', function(){
 });
 Route::get('/jobs', function () {
     // $job = Job::all(); // lazy loading
-    $job = Job::with('employer')->paginate(10); // eager loading
+    $job = Job::with('employer')
+    ->latest() // equivalent to orderBy('id', 'desc')
+    // ->orderBy('id', 'desc') 
+    ->paginate(10); // eager loading
     // $job = Job::with('employer')->cursorPaginate(5); // eager loading
     return view('jobs.index', ['jobs' => $job]);
 });
@@ -23,5 +26,12 @@ Route::get('/contact', function () {
     return view('contact');
 });
  Route::post('/jobs', function(){
-    dd('test');
+    Job::create([
+        'title' => request('title'),
+        'employer_id' => 1,
+        'company' => 'compay A',
+        'location' => 'Texas',
+        'salary' => request('salary'),
+    ]);
+    return redirect('/jobs')->with('success', 'Job created successfully!');
  });

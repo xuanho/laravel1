@@ -8,12 +8,14 @@ use Arr;
 class Job extends Model {
     use HasFactory;
     protected $table = 'job_listing';
-    protected $fillable = [
-        'title',
-        'company',
-        'location',
-        'salary',
-    ];
+    // protected $fillable = [
+    //     'title',
+    //     'employer_id',
+    //     'company',
+    //     'location',
+    //     'salary',
+    // ];
+    protected $guarded = []; // all fields are mass assignable
     public function employer(){
         return $this->belongsTo(Employer::class);
     }

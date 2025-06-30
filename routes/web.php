@@ -26,6 +26,10 @@ Route::get('/contact', function () {
     return view('contact');
 });
  Route::post('/jobs', function(){
+    request()->validate([
+        'title' => 'required|min:3|max:255',
+        'salary' => 'required|numeric|min:0',
+    ]);
     Job::create([
         'title' => request('title'),
         'employer_id' => 1,

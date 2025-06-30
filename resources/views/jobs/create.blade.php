@@ -4,7 +4,6 @@
     </x-slot:heading>
    <form method="POST" action="/jobs" class="space-y-8 divide-y divide-gray-900/10">
     @csrf
-    {{ csrf_token() }}
     <div class="space-y-12">
         <div class="border-b border-gray-900/10 pb-12">
             <h2 class="text-base/7 font-semibold text-gray-900">Create a new job</h2>
@@ -15,8 +14,12 @@
                     <label for="title" class="block text-sm/6 font-medium text-gray-900">Title</label>
                     <div class="mt-2">
                         <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
-                            <input type="text" name="title" id="title" class="block min-w-0 grow py-1.5 pr-3 px-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" placeholder="Job Title" />
+                            <input type="text" name="title" id="title" class="block min-w-0 grow py-1.5 pr-3 px-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" placeholder="Job Title"  required/>
                         </div>
+                        @error('title')
+                            <p class="mt-2 text-sm/6 text-red-600">{{ $message }}</p>
+                            
+                        @enderror
                     </div>
                 </div>
             </div>
@@ -25,11 +28,25 @@
                     <label for="salary" class="block text-sm/6 font-medium text-gray-900">Salrary</label>
                     <div class="mt-2">
                         <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
-                            <input type="text" name="salary" id="salary" class="block min-w-0 grow py-1.5 pr-3 px-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" placeholder="$50,000/year" />
+                            <input type="text" name="salary" inputmode="numeric" pattern="^[0-9]+$" id="salary" class="block min-w-0 grow py-1.5 pr-3 px-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" placeholder="$50,000/year" required   />
                         </div>
+                         @error('salary')
+                            <p class="mt-2 text-sm/6 text-red-600">{{ $message }}</p>
+                            
+                        @enderror
                     </div>
                 </div>
             </div>
+            {{-- @if ($errors->any())
+                <div class="mt-4">
+                    <ul class="list-disc pl-5 text-sm text-red-600">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                
+            @endif --}}
         </div>
     </div>
 

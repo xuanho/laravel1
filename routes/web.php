@@ -22,11 +22,7 @@ Route::view('/', 'home')->name('home');
 //     // delete job
 //     Route::delete('/jobs/{job}', 'destroy');
 // });
-Route::resource('jobs', JobController::class, [
-    'only' => [
-        'index'
-    ],
-]);
+Route::resource('jobs', JobController::class);
 Route::view('/contact', 'contact')->name('contact');
 // // create page
 // Route::get('/jobs/create', [JobController::class, 'create']);

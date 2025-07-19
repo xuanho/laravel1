@@ -23,7 +23,6 @@ class JobController extends Controller
         
     }
     public function show(Job $job){
-        dump($job);
          return view('jobs.show', ['job' => $job]);
 
     }
@@ -31,13 +30,12 @@ class JobController extends Controller
          request()->validate([
         'title' => 'required|min:3|max:255',
         'salary' => 'required|min:0',
-        ]);
-        Job::create([
-            'title' => request('title'),
-            'employer_id' => 1,
-            'company' => 'compay A',
-            'location' => 'Texas',
-            'salary' => request('salary'),
+        ], [
+            'title.required' => 'The job title is required.',
+            'title.min' => 'The job title must be at least 5 characters.',
+            'title.max' => 'The job title may not be greater than 255 characters.',
+            'salary.required' => 'The salary is required.',
+            'salary.min' => 'The salary must be at least 0.',
         ]);
         return redirect('/jobs')->with('success', 'Job created successfully!');
 

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\RegisterUserController;
+use App\Http\Controllers\SessionController;
 use App\Models\Job;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
@@ -22,8 +24,6 @@ Route::view('/', 'home')->name('home');
 //     // delete job
 //     Route::delete('/jobs/{job}', 'destroy');
 // });
-Route::resource('jobs', JobController::class);
-Route::view('/contact', 'contact')->name('contact');
 // // create page
 // Route::get('/jobs/create', [JobController::class, 'create']);
 // // index page
@@ -39,3 +39,14 @@ Route::view('/contact', 'contact')->name('contact');
 // // delete job
 // Route::delete('/jobs/{job}', [JobController::class, 'destroy']);
 
+Route::resource('jobs', JobController::class);
+Route::view('/contact', 'contact')->name('contact');
+Route::controller(RegisterUserController::class)->group(function(){
+    Route::get('/register','create')->name('register');
+    Route::post('/register','store')->name('register.store');
+});
+Route::controller(SessionController::class)->group(function(){
+    Route::get('/login','create')->name('login');
+    Route::post('/login','store')->name('login.store');
+});
+Route::post('/login', [SessionController::class, 'store'])->name('login.store')->middleware('auth');

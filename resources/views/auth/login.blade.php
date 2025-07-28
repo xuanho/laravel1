@@ -4,13 +4,20 @@
     </x-slot:heading>
    <form method="POST" action="/login" class="space-y-8 divide-y divide-gray-900/10">
     @csrf
+    @if (session('error'))
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <strong class="font-bold">Error!</strong>
+            <span class="block sm:inline">{{ session('error') }}</span>
+        </div>
+        
+    @endif
     <div class="space-y-12">
         <div class="border-b border-gray-900/10 pb-12">
             <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                  <x-form-field>
                     <x-form-label for="email">Email</x-form-label>
                     <div class="mt-2">
-                        <x-form-input type="email" name="email" id="email" required></x-form-input>
+                        <x-form-input type="email" name="email" id="email" required :value="old('email')"></x-form-input>
                         <x-form-error name="email"></x-form-error> 
                     </div>
                 </x-form-field>

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Job; // Import the Job model
+use App\Models\User;
+use Gate;
+use Illuminate\Support\Facades\Auth; // Import Auth facade for authentication
 
 class JobController extends Controller
 {
@@ -42,11 +45,29 @@ class JobController extends Controller
     }
     public function edit(Job $job)
     {
+        if(Auth::guest()){
+            return redirect('/login')->with('error','You must be logged in to edit a job.');
+        }
+        // check if the job belongs to the authenticated user
+        // Gate::authorize('edit-job', $job); // auto redirects if unauthorized
+        // if($job->employer->user->isNot(Auth::user())){
+        //     return redirect('/jobs')->with('error', 'You are not authorized to edit this job.');
+        // }
+        
+         // find the job by id
+         // $job = Job::find($id);
+         // if (!$job) {
+         //     abort(404);
+         // }
+         // dd($job);
+         // dump($job->employer->name);
+        // dump($job);
          return view('jobs.edit', ['job' => $job]);
         
     }
     public function update(Job $job) 
     {
+        Gate::authorize('edit-job', $job); // auto redirects if unauthorized
          // validate the request
         request()->validate([
             'title' => 'required|min:3|max:255',
@@ -70,6 +91,7 @@ class JobController extends Controller
     }
     public function destroy(Job $job)
     {      
+        Gate::authorize('edit-job', $job); // auto redirects if unauthorized
          // find and delete the job 
         $job->delete();
         // redirect to the jobs page

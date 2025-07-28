@@ -25,7 +25,7 @@ class RegisterUserController extends Controller
         auth()->login($user);
     
         // redirect to some wehre
-        return redirect()->route('home')->with('success', 'Registration successful!');
+        return redirect()->route('jobs.index')->with('success', 'Registration successful!');
         // or return a response
        
     }

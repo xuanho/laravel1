@@ -7,6 +7,8 @@ use App\Models\Job; // Import the Job model
 use App\Models\User;
 use Gate;
 use Illuminate\Support\Facades\Auth; // Import Auth facade for authentication
+use App\Mail\JobPosted; // Import the JobPosted Mailable
+use Illuminate\Support\Facades\Mail; // Import Mail facade for sending emails
 
 class JobController extends Controller
 {
@@ -40,6 +42,18 @@ class JobController extends Controller
             'salary.required' => 'The salary is required.',
             'salary.min' => 'The salary must be at least 0.',
         ]);
+
+        $job = Job::create([
+            'title' => request('title'),
+            'salary' => request('salary'),
+            'employer_id' => Auth::user()->id, // assuming the user is authenticated and has an employer,
+            'company' => 'javac technology', // get the company name from the employer relationship
+            'location' => 'Hanoi, Vietnam', // get the location from the employer relationship
+            'tax_number' => '93872985',
+        ]);
+
+        // send email to the employer
+         Mail::to($job->employer->user)->send(new JobPosted($job));
         return redirect('/jobs')->with('success', 'Job created successfully!');
 
     }

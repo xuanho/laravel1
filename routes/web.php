@@ -3,9 +3,19 @@
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\SessionController;
+use App\Jobs\TranslateJob;
 use App\Models\Job;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/test', function () {
+    // dispatch(function(){
+    //     logger('hello from queue');
+    // })->delay(5);
+    $job = Job::first();
+    TranslateJob::dispatch($job);
+    return 'Done';
+})->name('test');
 
 Route::view('/', 'home')->name('home');
 // Route::controller(JobController::class)->group(function () {

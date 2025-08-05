@@ -52,8 +52,9 @@ class JobController extends Controller
             'tax_number' => '93872985',
         ]);
 
-        // send email to the employer
-         Mail::to($job->employer->user)->send(new JobPosted($job));
+        // send email to the employer imadicline
+        //  Mail::to($job->employer->user)->send(new JobPosted($job));
+         Mail::to($job->employer->user)->queue(new JobPosted($job));
         return redirect('/jobs')->with('success', 'Job created successfully!');
 
     }
